@@ -22,6 +22,15 @@ class BeerControllerTest {
     WebTestClient webTestClient;
 
     @Test
+    void testPatchNotFound() {
+        webTestClient.patch()
+                .uri(BeerController.BEER_PATH_ID, -1)
+                .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Test
     @Order(999)
     void testDeleteBeer() {
         webTestClient.delete()
